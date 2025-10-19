@@ -12,7 +12,7 @@ namespace Epew.Core.Runner
         }
 
         public int Run() {
-            _ProgramStarter.Result = this;
+            this._ProgramStarter.Result = this;
           return this.RunImplementation();
 
         }

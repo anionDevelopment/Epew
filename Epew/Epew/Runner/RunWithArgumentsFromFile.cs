@@ -1,8 +1,6 @@
 ﻿using Epew.Core.Helper;
 using Epew.Core.Verbs;
 using GRYLibrary.Core.ExecutePrograms;
-using System;
-using System.Diagnostics;
 using System.IO;
 
 namespace Epew.Core.Runner
@@ -18,7 +16,7 @@ namespace Epew.Core.Runner
 
         protected override int RunImplementation()
         {
-            string argumentsFile = _Options.File;
+            string argumentsFile = this._Options.File;
             string currentFolder = Directory.GetCurrentDirectory();
             if(GRYLibrary.Core.Misc.Utilities.IsRelativeLocalFilePath(argumentsFile))
             {

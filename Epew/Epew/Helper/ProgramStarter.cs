@@ -23,9 +23,12 @@ namespace Epew.Core.Helper
         internal string LicenseLink { get; private set; }
         internal IList<string> BasicHelp { get; private set; }
         internal RunBase? Result;
-        public ProgramStarter()
+        public ProgramStarter():this(GRYLog.Create())
+        {          
+        }
+        public ProgramStarter(IGRYLog log)
         {
-            this._Log = GRYLog.Create();
+            this._Log = log;
             this.Version = GetVersion();
             this.LicenseLink = $"https://raw.githubusercontent.com/anionDev/Epew/v{this.Version}/License.txt";
             this.BasicHelp = new List<string>() {

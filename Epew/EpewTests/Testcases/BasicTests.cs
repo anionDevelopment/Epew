@@ -1,6 +1,11 @@
 using Epew.Core.Helper;
 using Epew.Core.Runner;
+using GRYLibrary.Core.APIServer.Services.Interfaces;
+using GRYLibrary.Core.Logging.GRYLogger;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using System;
+using System.IO;
 
 namespace Epew.Tests.Testcases
 {
@@ -27,6 +32,69 @@ namespace Epew.Tests.Testcases
             Assert.AreEqual(1, resultRunner._ExternalProgramExecutor.AllStdOutLines.Length);
             Assert.AreEqual(output, resultRunner._ExternalProgramExecutor.AllStdOutLines[0]);
             Assert.AreEqual(0, resultRunner._ExternalProgramExecutor.AllStdErrLines.Length);
+        }
+
+        [TestMethod]
+        public void EchoWithTimestampLocal()
+        {
+            // arrange
+            StringWriter stringWriter = new StringWriter();
+            System.Console.SetOut(stringWriter);
+            string output = "test1";
+            DateTimeOffset testDateTime = new System.DateTimeOffset(2025, 10, 19, 00, 25, 04, TimeSpan.FromHours(2));
+            GRYLog log = GRYLog.Create();
+            RunWithArgumentsFromCLI pe = new RunWithArgumentsFromCLI(new ProgramStarter(log), new Core.Verbs.RunCLI()
+            {
+                Program = "echo2",
+                Argument = output,
+                AddLogOverhead = true,
+                TimestampInUTC = false,
+                Verbosity = GRYLibrary.Core.ExecutePrograms.Verbosity.Full,
+            });
+            Mock<ITimeService> timeServiceMock = new Mock<ITimeService>(MockBehavior.Strict);
+            timeServiceMock.Setup(t => t.GetCurrentLocalTimeAsDateTimeOffset()).Returns(testDateTime);
+            log._TimeService = timeServiceMock.Object;
+
+            DateTimeOffset c = timeServiceMock.Object.GetCurrentLocalTimeAsDateTimeOffset();
+            log._TimeService = timeServiceMock.Object;
+
+            // act
+            int result = pe.Run();
+
+            // assert
+            Assert.AreEqual(0, result);
+            string content = stringWriter.ToString().Replace("\n", string.Empty).Replace("\r", string.Empty);
+            Assert.AreEqual($"[2025-10-19T00:25:04+02:00] [Information] {output}", content);
+        }
+
+        [TestMethod]
+        public void EchoWithTimestampUTC()
+        {
+            // arrange
+            StringWriter stringWriter = new StringWriter();
+            System.Console.SetOut(stringWriter);
+            string output = "test2";
+            DateTimeOffset testDateTime = new System.DateTimeOffset(2025, 10, 19, 00, 25, 04, TimeSpan.FromHours(2));
+            GRYLog log = GRYLog.Create();
+            RunWithArgumentsFromCLI pe = new RunWithArgumentsFromCLI(new ProgramStarter(log), new Core.Verbs.RunCLI()
+            {
+                Program = "echo2",
+                Argument = output,
+                AddLogOverhead = true,
+                TimestampInUTC = true,
+                Verbosity = GRYLibrary.Core.ExecutePrograms.Verbosity.Full,
+            });
+            Mock<ITimeService> timeServiceMock = new Mock<ITimeService>(MockBehavior.Strict);
+            timeServiceMock.Setup(t => t.GetCurrentTimeInUTCAsDateTimeOffset()).Returns(testDateTime);
+            log._TimeService = timeServiceMock.Object;
+
+            // act
+            int result = pe.Run();
+
+            // assert
+            Assert.AreEqual(0, result);
+            string content = stringWriter.ToString().Replace("\n", string.Empty).Replace("\r", string.Empty);
+            Assert.AreEqual($"[2025-10-18T22:25:04+00:00] [Information] {output}", content);
         }
     }
 }
