@@ -31,9 +31,6 @@ namespace Epew.Core.Verbs
         [Option('g', nameof(AddLogOverhead), Required = false, HelpText = "Add log overhead", Default = false)]
         public bool AddLogOverhead { get; set; }
 
-        [Option('z', nameof(TimestampInUTC), Required = false, HelpText = "Print timestamps in UTC (otherwise: local timezone)", Default = false)]
-        public bool TimestampInUTC { get; set; }        
-
         [Option('f', nameof(LogFile), Required = false, HelpText = "Logfile for " + ProgramStarter.ProgramName)]
         public string LogFile { get; set; }
 

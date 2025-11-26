@@ -125,7 +125,6 @@ namespace Epew.Core.Runner
                     RedirectStandardOutput = true,
                     TimeoutInMilliseconds = this._Options.TimeoutInMilliseconds,
                 };
-                this._ProgramStarter._Log.Configuration.ConvertTimeForLogEntriesToUTCFormat = this._Options.TimestampInUTC;
                 if(this._Options.NotSynchronous)
                 {
                     externalProgramExecutorConfiguration.WaitingState = new RunAsynchronously();

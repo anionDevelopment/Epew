@@ -35,39 +35,6 @@ namespace Epew.Tests.Testcases
         }
 
         [TestMethod]
-        public void EchoWithTimestampLocal()
-        {
-            // arrange
-            StringWriter stringWriter = new StringWriter();
-            System.Console.SetOut(stringWriter);
-            string output = "test1";
-            DateTimeOffset testDateTime = new System.DateTimeOffset(2025, 10, 19, 00, 25, 04, TimeSpan.FromHours(2));
-            GRYLog log = GRYLog.Create();
-            RunWithArgumentsFromCLI pe = new RunWithArgumentsFromCLI(new ProgramStarter(log), new Core.Verbs.RunCLI()
-            {
-                Program = "echo2",
-                Argument = output,
-                AddLogOverhead = true,
-                TimestampInUTC = false,
-                Verbosity = GRYLibrary.Core.ExecutePrograms.Verbosity.Full,
-            });
-            Mock<ITimeService> timeServiceMock = new Mock<ITimeService>(MockBehavior.Strict);
-            timeServiceMock.Setup(t => t.GetCurrentLocalTimeAsDateTimeOffset()).Returns(testDateTime);
-            log._TimeService = timeServiceMock.Object;
-
-            DateTimeOffset c = timeServiceMock.Object.GetCurrentLocalTimeAsDateTimeOffset();
-            log._TimeService = timeServiceMock.Object;
-
-            // act
-            int result = pe.Run();
-
-            // assert
-            Assert.AreEqual(0, result);
-            string content = stringWriter.ToString().Replace("\n", string.Empty).Replace("\r", string.Empty);
-            Assert.AreEqual($"[2025-10-19T00:25:04+02:00] [Information] {output}", content);
-        }
-
-        [TestMethod]
         public void EchoWithTimestampUTC()
         {
             // arrange
@@ -81,7 +48,6 @@ namespace Epew.Tests.Testcases
                 Program = "echo2",
                 Argument = output,
                 AddLogOverhead = true,
-                TimestampInUTC = true,
                 Verbosity = GRYLibrary.Core.ExecutePrograms.Verbosity.Full,
             });
             Mock<ITimeService> timeServiceMock = new Mock<ITimeService>(MockBehavior.Strict);
