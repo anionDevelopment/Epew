@@ -51,7 +51,7 @@ namespace Epew.Tests.Testcases
                 Verbosity = GRYLibrary.Core.ExecutePrograms.Verbosity.Full,
             });
             Mock<ITimeService> timeServiceMock = new Mock<ITimeService>(MockBehavior.Strict);
-            timeServiceMock.Setup(t => t.GetCurrentTimeInUTCAsDateTimeOffset()).Returns(testDateTime);
+            timeServiceMock.Setup(t => t.GetCurrentLocalTimeAsDateTimeOffset()).Returns(testDateTime);
             log._TimeService = timeServiceMock.Object;
 
             // act
@@ -60,7 +60,7 @@ namespace Epew.Tests.Testcases
             // assert
             Assert.AreEqual(0, result);
             string content = stringWriter.ToString().Replace("\n", string.Empty).Replace("\r", string.Empty);
-            Assert.AreEqual($"[2025-10-18T22:25:04+00:00] [Information] {output}", content);
+            Assert.AreEqual($"[2025-10-19T00:25:04+02:00] [Information] {output}", content);
         }
     }
 }

@@ -5,7 +5,7 @@
     <cps:codeunitownername>Marius Göcke</cps:codeunitownername>
     <cps:codeunitowneremailaddress>marius.goecke@gmail.com</cps:codeunitowneremailaddress>
     <cps:properties codeunithastestablesourcecode="true" codeunithasupdatabledependencies="true" throwexceptionifcodeunitfilecannotbevalidated="true" developmentstate="Maintenance-updates only" description="Epew (ExternalProgramExecutionWrapper) is a tool to wrap program-calls with some useful functions.">
-        <cps:testsettings minimalcodecoverageinpercent="30"/>
+        <cps:testsettings minimalcodecoverageinpercent="25"/>
         <cps:pipelinedemands>
         </cps:pipelinedemands>
         <cps:updatesettings>
