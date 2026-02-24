@@ -6,7 +6,7 @@ using Epew.Core.Helper;
 namespace Epew.Core.Verbs
 {
     [Verb(nameof(RunCLI), isDefault: true, HelpText = "Runs a program using the arguments specified by commandline-arguments.")]
-    public class RunCLI:VerbBase
+    public class RunCLI :VerbBase
     {
         internal ExternalProgramExecutor _ExternalProgramExecutor = null;
 
@@ -33,6 +33,9 @@ namespace Epew.Core.Verbs
 
         [Option('f', nameof(LogFile), Required = false, HelpText = "Logfile for " + ProgramStarter.ProgramName)]
         public string LogFile { get; set; }
+
+        [Option('m', nameof(MaximalLogFileSize), Required = false, Default = (uint)0, HelpText =$"When the log-file-size will be larger {nameof(MaximalLogFileSize)} then the log-file will be rotated.")]
+        public uint MaximalLogFileSize { get; set; }
 
         [Option('o', nameof(StdOutFile), Required = false, HelpText = "File for the stdout of the executed program")]
         public string StdOutFile { get; set; }
@@ -73,7 +76,7 @@ namespace Epew.Core.Verbs
 
         public override T Accept<T>(IVerbBaseVisitor<T> visitor)
         {
-           return visitor.Handle(this);
+            return visitor.Handle(this);
         }
     }
 }

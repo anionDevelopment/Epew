@@ -101,7 +101,7 @@ namespace Epew.Core.Runner
                         {
                             logFile.Enabled = true;
                             logFile.File = AbstractFilePath.FromString(this._Options.LogFile);
-                            break;
+                            logFile.MaxLogFileSizeInBytes = this._Options.MaximalLogFileSize;
                         }
                     }
                 }
@@ -149,7 +149,7 @@ namespace Epew.Core.Runner
                 }
                 else
                 {
-                    Task t =new Task(() =>
+                    Task t = new Task(() =>
                     {
                         this._ExternalProgramExecutor.WaitUntilTerminated();
                         this.ProgramExecutionResultHandler(this._ExternalProgramExecutor, this._Options, executionId, commandLineExecutionAsString);
