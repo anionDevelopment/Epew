@@ -9,6 +9,7 @@ using GRYLibrary.Core.Logging.GRYLogger;
 using Epew.Core.Verbs;
 using Error = CommandLine.Error;
 using Epew.Core.Runner;
+using System.IO;
 
 namespace Epew.Core.Helper
 {
@@ -28,6 +29,7 @@ namespace Epew.Core.Helper
         }
         public ProgramStarter(IGRYLog log)
         {
+            log.BasePath = Directory.GetCurrentDirectory();
             this._Log = log;
             this.Version = GetVersion();
             this.LicenseLink = $"https://raw.githubusercontent.com/anionDev/Epew/v{this.Version}/License.txt";

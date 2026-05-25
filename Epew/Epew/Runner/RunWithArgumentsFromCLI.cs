@@ -95,13 +95,18 @@ namespace Epew.Core.Runner
                 }
                 if(!string.IsNullOrWhiteSpace(this._Options.LogFile))
                 {
+                    string logFilePath = this._Options.LogFile;
+                    if(Utilities.IsRelativeLocalFilePath(logFilePath))
+                    {
+                        logFilePath = Utilities.ResolveToFullPath(logFilePath, workingDirectory);
+                    }
                     foreach(GRYLogTarget target in this._ProgramStarter._Log.Configuration.LogTargets)
                     {
                         if(target is LogFile logFile)
                         {
                             logFile.Enabled = true;
-                            logFile.File = AbstractFilePath.FromString(this._Options.LogFile);
-                            break;
+                            logFile.File = AbstractFilePath.FromString(logFilePath);
+                            logFile.MaxLogFileSizeInBytes = this._Options.MaximalLogFileSize;
                         }
                     }
                 }
@@ -149,7 +154,7 @@ namespace Epew.Core.Runner
                 }
                 else
                 {
-                    Task t =new Task(() =>
+                    Task t = new Task(() =>
                     {
                         this._ExternalProgramExecutor.WaitUntilTerminated();
                         this.ProgramExecutionResultHandler(this._ExternalProgramExecutor, this._Options, executionId, commandLineExecutionAsString);
