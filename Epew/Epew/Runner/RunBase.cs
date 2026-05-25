@@ -11,11 +11,12 @@ namespace Epew.Core.Runner
             this._ProgramStarter = programStarter;
         }
 
-        public int Run() {
+        public int Run()
+        {
             this._ProgramStarter.Result = this;
-          return this.RunImplementation();
-
+            return this.RunImplementation();
         }
+
         protected abstract int RunImplementation();
     }
 }

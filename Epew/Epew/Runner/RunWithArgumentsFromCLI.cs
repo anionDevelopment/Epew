@@ -95,12 +95,17 @@ namespace Epew.Core.Runner
                 }
                 if(!string.IsNullOrWhiteSpace(this._Options.LogFile))
                 {
+                    string logFilePath = this._Options.LogFile;
+                    if(Utilities.IsRelativeLocalFilePath(logFilePath))
+                    {
+                        logFilePath = Utilities.ResolveToFullPath(logFilePath, workingDirectory);
+                    }
                     foreach(GRYLogTarget target in this._ProgramStarter._Log.Configuration.LogTargets)
                     {
                         if(target is LogFile logFile)
                         {
                             logFile.Enabled = true;
-                            logFile.File = AbstractFilePath.FromString(this._Options.LogFile);
+                            logFile.File = AbstractFilePath.FromString(logFilePath);
                             logFile.MaxLogFileSizeInBytes = this._Options.MaximalLogFileSize;
                         }
                     }
