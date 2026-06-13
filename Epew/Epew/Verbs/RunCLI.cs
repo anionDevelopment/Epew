@@ -50,7 +50,7 @@ namespace Epew.Core.Verbs
         public string ProcessIdFile { get; set; }
 
         [Option('d', nameof(TimeoutInMilliseconds), Required = false, HelpText = "Maximal duration of the execution process before it will by aborted by " + ProgramStarter.ProgramName, Default = int.MaxValue)]
-        public int TimeoutInMilliseconds { get; set; }
+        public int TimeoutInMilliseconds { get; set; } = int.MaxValue;
 
         [Option('t', nameof(Title), Required = false, HelpText = "Title for the execution-process")]
         public string Title { get; set; }

@@ -125,7 +125,7 @@ namespace Epew.Core.Runner
                     User = this._Options.User,
                     Password = this._Options.Password,
                     CreateWindow = !this._Options.HideConsoleWindow,
-                    RedirectStandardInput = true,
+                    RedirectStandardInput = false,
                     RedirectStandardError = true,
                     RedirectStandardOutput = true,
                     TimeoutInMilliseconds = this._Options.TimeoutInMilliseconds,
