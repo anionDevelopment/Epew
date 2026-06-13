@@ -26,7 +26,7 @@ Other features:
 ### Download sourcecode using git (Linux and Windows)
 
 ```
-git clone https://github.com/anionDev/Epew
+git clone https://github.com/anionDevelopment/Epew
 cd Epew
 dotnet build  Epew.sln
 ```
