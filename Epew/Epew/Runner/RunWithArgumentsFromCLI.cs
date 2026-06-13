@@ -7,7 +7,6 @@ using GRYLibrary.Core.Logging.GRYLogger.ConcreteLogTargets;
 using GRYLibrary.Core.Misc;
 using GRYLibrary.Core.Misc.FilePath;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -38,7 +37,7 @@ namespace Epew.Core.Runner
             }
             if(this._Options.Verbosity == Verbosity.Verbose)
             {
-                foreach(GRYLogTarget logtarget in _ProgramStarter._Log.Configuration.LogTargets)
+                foreach(GRYLogTarget logtarget in this._ProgramStarter._Log.Configuration.LogTargets)
                 {
                     logtarget.LogLevels.Add(LogLevel.Debug);
                 }
@@ -96,18 +95,23 @@ namespace Epew.Core.Runner
                 }
                 if(!string.IsNullOrWhiteSpace(this._Options.LogFile))
                 {
+                    string logFilePath = this._Options.LogFile;
+                    if(Utilities.IsRelativeLocalFilePath(logFilePath))
+                    {
+                        logFilePath = Utilities.ResolveToFullPath(logFilePath, workingDirectory);
+                    }
                     foreach(GRYLogTarget target in this._ProgramStarter._Log.Configuration.LogTargets)
                     {
                         if(target is LogFile logFile)
                         {
                             logFile.Enabled = true;
-                            logFile.File = AbstractFilePath.FromString(this._Options.LogFile);
-                            break;
+                            logFile.File = AbstractFilePath.FromString(logFilePath);
+                            logFile.MaxLogFileSizeInBytes = this._Options.MaximalLogFileSize;
                         }
                     }
                 }
 
-                foreach(GRYLogTarget target in _ProgramStarter._Log.Configuration.LogTargets)
+                foreach(GRYLogTarget target in this._ProgramStarter._Log.Configuration.LogTargets)
                 {
                     target.Format = this._Options.AddLogOverhead ? GRYLogLogFormat.GRYLogFormat : GRYLogLogFormat.OnlyMessage;
                 }
@@ -121,7 +125,9 @@ namespace Epew.Core.Runner
                     User = this._Options.User,
                     Password = this._Options.Password,
                     CreateWindow = !this._Options.HideConsoleWindow,
-                    RedirectStandardInput = true,
+                    RedirectStandardInput = false,
+                    RedirectStandardError = true,
+                    RedirectStandardOutput = true,
                     TimeoutInMilliseconds = this._Options.TimeoutInMilliseconds,
                 };
                 if(this._Options.NotSynchronous)
@@ -134,9 +140,9 @@ namespace Epew.Core.Runner
                 }
                 this._ExternalProgramExecutor = new ExternalProgramExecutor(externalProgramExecutorConfiguration)
                 {
-                    LogObject = _ProgramStarter._Log
+                    LogObject = this._ProgramStarter._Log
                 };
-                using(IDisposable subNamespace = _ProgramStarter._Log.UseSubNamespace(this._Options.LogNamespace))
+                using(IDisposable subNamespace = this._ProgramStarter._Log.UseSubNamespace(this._Options.LogNamespace))
                 {
                     this._ExternalProgramExecutor.Run();
                 }
@@ -148,17 +154,19 @@ namespace Epew.Core.Runner
                 }
                 else
                 {
-                    new Task(() =>
+                    Task t = new Task(() =>
                     {
                         this._ExternalProgramExecutor.WaitUntilTerminated();
                         this.ProgramExecutionResultHandler(this._ExternalProgramExecutor, this._Options, executionId, commandLineExecutionAsString);
-                    }).Start();
+                    });
+                    t.Start();
+                    t.Wait();
                     result = this._ExternalProgramExecutor.ExitCode;
                 }
             }
             catch(Exception exception)
             {
-                _ProgramStarter._Log.Log($"Error in {ProgramStarter.ProgramName}.", exception);
+                this._ProgramStarter._Log.Log($"Error in {ProgramStarter.ProgramName}.", exception);
             }
             return result;
         }

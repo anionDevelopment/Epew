@@ -26,7 +26,7 @@ Other features:
 ### Download sourcecode using git (Linux and Windows)
 
 ```
-git clone https://github.com/anionDev/Epew
+git clone https://github.com/anionDevelopment/Epew
 cd Epew
 dotnet build  Epew.sln
 ```
@@ -127,7 +127,7 @@ This product requires to use `scbuildcodeunits` implemented/provided by [ScriptC
 
 See the [Changelog-folder](./Other/Resources/Changelog).
 
-## Contribue
+## Contribute
 
 Contributions are always welcome.
 

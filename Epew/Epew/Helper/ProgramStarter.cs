@@ -9,6 +9,7 @@ using GRYLibrary.Core.Logging.GRYLogger;
 using Epew.Core.Verbs;
 using Error = CommandLine.Error;
 using Epew.Core.Runner;
+using System.IO;
 
 namespace Epew.Core.Helper
 {
@@ -23,9 +24,13 @@ namespace Epew.Core.Helper
         internal string LicenseLink { get; private set; }
         internal IList<string> BasicHelp { get; private set; }
         internal RunBase? Result;
-        public ProgramStarter()
+        public ProgramStarter():this(GRYLog.Create())
+        {          
+        }
+        public ProgramStarter(IGRYLog log)
         {
-            this._Log = GRYLog.Create();
+            log.BasePath = Directory.GetCurrentDirectory();
+            this._Log = log;
             this.Version = GetVersion();
             this.LicenseLink = $"https://raw.githubusercontent.com/anionDev/Epew/v{this.Version}/License.txt";
             this.BasicHelp = new List<string>() {
