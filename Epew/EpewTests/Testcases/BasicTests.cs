@@ -123,6 +123,7 @@ namespace Epew.Tests.Testcases
         public void EchoWithTimestampUTC()
         {
             // arrange
+            TextWriter originalOut = System.Console.Out;
             StringWriter stringWriter = new StringWriter();
             System.Console.SetOut(stringWriter);
             string output = "test2";
@@ -139,13 +140,20 @@ namespace Epew.Tests.Testcases
             timeServiceMock.Setup(t => t.GetCurrentLocalTimeAsDateTimeOffset()).Returns(testDateTime);
             log._TimeService = timeServiceMock.Object;
 
-            // act
-            int result = pe.Run();
+            try
+            {
+                // act
+                int result = pe.Run();
 
-            // assert
-            Assert.AreEqual(0, result);
-            string content = stringWriter.ToString().Replace("\n", string.Empty).Replace("\r", string.Empty);
-            Assert.AreEqual($"[2025-10-19T00:25:04+02:00] [Information] {output}", content);
+                // assert
+                Assert.AreEqual(0, result);
+                string content = stringWriter.ToString().Replace("\n", string.Empty).Replace("\r", string.Empty);
+                Assert.AreEqual($"[2025-10-19T00:25:04+02:00] [Information] {output}", content);
+            }
+            finally
+            {
+                System.Console.SetOut(originalOut);
+            }
         }
     }
 }
