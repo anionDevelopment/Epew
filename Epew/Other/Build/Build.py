@@ -8,6 +8,7 @@ def build():
             Platform.Windows_AMD64,
             Platform.Linux_AMD64,
             Platform.Linux_ARM64,
+            Platform.MacOS_ARM64,
     ]
 
     #usual build
