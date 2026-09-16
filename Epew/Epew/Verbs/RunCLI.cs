@@ -1,4 +1,4 @@
-﻿using CommandLine;
+using CommandLine;
 using GRYLibrary.Core.ExecutePrograms;
 using GRYLibrary.Core.Misc;
 using Epew.Core.Helper;

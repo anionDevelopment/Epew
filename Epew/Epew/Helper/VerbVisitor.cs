@@ -1,4 +1,4 @@
-﻿using Epew.Core.Runner;
+using Epew.Core.Runner;
 using Epew.Core.Verbs;
 
 namespace Epew.Core.Helper

@@ -1,4 +1,4 @@
-﻿using GRYLibrary.Core.Misc;
+using GRYLibrary.Core.Misc;
 using Epew.Core.Helper;
 using Epew.Core.Runner;
 using GRYLibrary.Core.APIServer.Services.Interfaces;
