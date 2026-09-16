@@ -1,3 +1,4 @@
+﻿using GRYLibrary.Core.Misc;
 using Epew.Core.Helper;
 using Epew.Core.Runner;
 using GRYLibrary.Core.APIServer.Services.Interfaces;
@@ -13,6 +14,7 @@ namespace Epew.Tests.Testcases
     public class BasicTests
     {
         [TestMethod]
+        [TestProperty(nameof(GRYLibrary.Core.Misc.TestKind), nameof(GRYLibrary.Core.Misc.TestKind.IntegrationTest))]
         public void Echo()
         {
             // arrange
@@ -35,6 +37,7 @@ namespace Epew.Tests.Testcases
         }
 
         [TestMethod]
+        [TestProperty(nameof(GRYLibrary.Core.Misc.TestKind), nameof(GRYLibrary.Core.Misc.TestKind.IntegrationTest))]
         public void EchoWritesLogFileWhenDashFSwitchIsSet()
         {
             // arrange
@@ -77,6 +80,7 @@ namespace Epew.Tests.Testcases
         }
 
         [TestMethod]
+        [TestProperty(nameof(GRYLibrary.Core.Misc.TestKind), nameof(GRYLibrary.Core.Misc.TestKind.IntegrationTest))]
         public void EchoWritesLogFileWhenDashFSwitchIsSetWithRelativePath()
         {
             // arrange
@@ -120,6 +124,7 @@ namespace Epew.Tests.Testcases
         }
 
         [TestMethod]
+        [TestProperty(nameof(GRYLibrary.Core.Misc.TestKind), nameof(GRYLibrary.Core.Misc.TestKind.IntegrationTest))]
         public void EchoWithTimestampUTC()
         {
             // arrange
