@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <productinformation xmlns="https://projects.aniondev.de/PublicProjects/Common/ProjectTemplates/-/tree/main/Conventions/RepositoryStructure/CommonProjectStructure">
   <producttitle>Epew</producttitle>
-  <remoteaddress>https://github.com/anion/Epew</remoteaddress>
+  <remoteaddress>https://github.com/anionDevelopment/Epew</remoteaddress>
   <requiredenvironmentvariables />
 </productinformation>

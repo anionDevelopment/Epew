@@ -13,8 +13,8 @@
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <Copyright>Copyright © 2026 Marius Göcke</Copyright>
     <Description>EpewTests is the test-project for Epew.</Description>
-    <PackageProjectUrl>https://github.com/anionDev/Epew</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/anionDev/Epew.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/anionDevelopment/Epew</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/anionDevelopment/Epew.git</RepositoryUrl>
     <RootNamespace>Epew.Tests</RootNamespace>
     <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
     <Nullable>enable</Nullable>

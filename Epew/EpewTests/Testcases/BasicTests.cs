@@ -19,7 +19,7 @@ namespace Epew.Tests.Testcases
         {
             // arrange
             string output = "test";
-            string[] arguments = new string[] { "--Program", "echo2", "--Argument", output };
+            string[] arguments = new string[] { "--Program", "echo", "--Argument", output };
             ProgramStarter pe = new ProgramStarter();
 
             // act
@@ -45,7 +45,7 @@ namespace Epew.Tests.Testcases
             string output = "log-switch-test";
             string[] arguments = new string[]
             {
-                "--Program", "echo2",
+                "--Program", "echo",
                 "--Argument", output,
                 "-f", logFilePath,
                 "-v", "Full",
@@ -89,7 +89,7 @@ namespace Epew.Tests.Testcases
             string output = "log-switch-relative-test";
             string[] arguments = new string[]
             {
-                "--Program", "echo2",
+                "--Program", "echo",
                 "--Argument", output,
                 "-f", relativeLogFileName,
                 "-v", "Full",
@@ -136,7 +136,7 @@ namespace Epew.Tests.Testcases
             GRYLog log = GRYLog.Create();
             RunWithArgumentsFromCLI pe = new RunWithArgumentsFromCLI(new ProgramStarter(log), new Core.Verbs.RunCLI()
             {
-                Program = "echo2",
+                Program = "echo",
                 Argument = output,
                 AddLogOverhead = true,
                 Verbosity = GRYLibrary.Core.ExecutePrograms.Verbosity.Full,
