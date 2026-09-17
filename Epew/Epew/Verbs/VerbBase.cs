@@ -1,4 +1,4 @@
-﻿namespace Epew.Core.Verbs
+namespace Epew.Core.Verbs
 {
     public abstract class VerbBase
     {

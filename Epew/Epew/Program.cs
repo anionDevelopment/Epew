@@ -1,4 +1,4 @@
-﻿using Epew.Core.Helper;
+using Epew.Core.Helper;
 
 namespace Epew.Core
 {

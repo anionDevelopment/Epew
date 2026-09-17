@@ -1,4 +1,4 @@
-﻿using Epew.Core.Helper;
+using Epew.Core.Helper;
 using Epew.Core.Verbs;
 using GRYLibrary.Core.ExecutePrograms;
 using GRYLibrary.Core.ExecutePrograms.WaitingStates;
