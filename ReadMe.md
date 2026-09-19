@@ -4,7 +4,7 @@ Epew (ExternalProgramExecutionWrapper) is a tool to wrap program-calls with some
 It is something like a wrapper or a shim to be able to add timestamps to the output, write output to files, and to add some more functionalities.
 Due to the possibility to encode arguments for program-calls in base64 Epew is especially helpful when you want to run a program with some arguments which contain every kind of escape-character which should not be escaped but simply be passed to the executed program.
 Adding a timeout is also of course possible.
-Epew is available for Windows and Linux.
+Epew is available for Windows, Linux and macOS.
 If you do not know the full path of the program, Epew of course uses the `PATH`-environment-variable to find the desired program, and this also works with some tricky cmd-tools like npm on Windows.
 
 Epew is a commandline-tool.
@@ -18,12 +18,12 @@ The main-advantage of epew is to be used when
 
 Other features:
 
-- epew is available for Linux and Windows.
+- epew is available for Linux, Windows and macOS.
 - epew resolves environment-variables. (For example you can set `git` as program instead of `C:\Program Files\Git\cmd\git.exe`. Both variants are working.)
 
 ## Get epew
 
-### Download sourcecode using git (Linux and Windows)
+### Download sourcecode using git (Linux, Windows and macOS)
 
 ```
 git clone https://github.com/anionDevelopment/Epew
