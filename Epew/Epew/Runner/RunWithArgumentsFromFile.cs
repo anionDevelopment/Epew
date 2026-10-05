@@ -14,6 +14,14 @@ namespace Epew.Core.Runner
             this._Options = options;
         }
 
+        /// <summary>
+        /// Reads the commandline-arguments from <see cref="RunFile.File"/> (a relative path is resolved against the
+        /// current working-directory, and any line-breaks in the file-content are removed so that the arguments end
+        /// up on a single line) and re-runs Epew itself synchronously with these arguments. The re-run instance's own
+        /// stdout/stderr are captured internally but not forwarded anywhere, since neither a log-target nor an
+        /// output-file is configured for it.
+        /// </summary>
+        /// <returns>The exitcode of the re-run Epew-invocation.</returns>
         protected override int RunImplementation()
         {
             string argumentsFile = this._Options.File;

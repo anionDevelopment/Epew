@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.IO;
+using System.Text;
 
 namespace Epew.Tests.Testcases
 {
@@ -119,6 +120,102 @@ namespace Epew.Tests.Testcases
                 if(File.Exists(expectedAbsoluteLogFilePath))
                 {
                     File.Delete(expectedAbsoluteLogFilePath);
+                }
+            }
+        }
+
+        [TestMethod]
+        [TestProperty(nameof(GRYLibrary.Core.Misc.TestKind), nameof(GRYLibrary.Core.Misc.TestKind.IntegrationTest))]
+        public void ArgumentIsBase64EncodedDecodesArgumentBeforeExecution()
+        {
+            // arrange
+            string output = "base64-decoded-output";
+            string base64Argument = Convert.ToBase64String(new UTF8Encoding(false).GetBytes(output));
+            string[] arguments = new string[] { "--Program", "echo", "--Argument", base64Argument, "--ArgumentIsBase64Encoded", "true" };
+            ProgramStarter pe = new ProgramStarter();
+
+            // act
+            int result = pe.Main(arguments);
+
+            // assert
+            Assert.AreEqual(0, result);
+            Assert.IsTrue(pe.Result is RunWithArgumentsFromCLI);
+            RunWithArgumentsFromCLI resultRunner = (RunWithArgumentsFromCLI)pe.Result;
+            Assert.AreEqual(1, resultRunner._ExternalProgramExecutor.AllStdOutLines.Length);
+            Assert.AreEqual(output, resultRunner._ExternalProgramExecutor.AllStdOutLines[0]);
+        }
+
+        [TestMethod]
+        [TestProperty(nameof(GRYLibrary.Core.Misc.TestKind), nameof(GRYLibrary.Core.Misc.TestKind.IntegrationTest))]
+        public void InvalidBase64ArgumentReturnsNoProgramExecutedExitCodeInsteadOfCrashing()
+        {
+            // arrange
+            string[] arguments = new string[] { "--Program", "echo", "--Argument", "%%%not-valid-base64%%%", "--ArgumentIsBase64Encoded", "true" };
+            ProgramStarter pe = new ProgramStarter();
+
+            // act
+            int result = pe.Main(arguments);
+
+            // assert
+            Assert.AreEqual(RunWithArgumentsFromCLI.ExitCodeNoProgramExecuted, result);
+        }
+
+        [TestMethod]
+        [TestProperty(nameof(GRYLibrary.Core.Misc.TestKind), nameof(GRYLibrary.Core.Misc.TestKind.IntegrationTest))]
+        public void NonExistentWorkingdirectoryReturnsNoProgramExecutedExitCode()
+        {
+            // arrange
+            string nonExistentWorkingDirectory = Path.Combine(Path.GetTempPath(), $"epew-nonexistent-workingdirectory-{Guid.NewGuid():N}");
+            string[] arguments = new string[] { "--Program", "echo", "--Argument", "test", "--Workingdirectory", nonExistentWorkingDirectory };
+            ProgramStarter pe = new ProgramStarter();
+
+            // act
+            int result = pe.Main(arguments);
+
+            // assert
+            Assert.AreEqual(RunWithArgumentsFromCLI.ExitCodeNoProgramExecuted, result);
+        }
+
+        [TestMethod]
+        [TestProperty(nameof(GRYLibrary.Core.Misc.TestKind), nameof(GRYLibrary.Core.Misc.TestKind.IntegrationTest))]
+        public void MissingRequiredProgramArgumentReturnsParsingErrorExitCode()
+        {
+            // arrange
+            string[] arguments = new string[] { "--Argument", "test" };
+            ProgramStarter pe = new ProgramStarter();
+
+            // act
+            int result = pe.Main(arguments);
+
+            // assert
+            Assert.AreEqual(ProgramStarter.ExitCodeParsingError, result);
+        }
+
+        [TestMethod]
+        [TestProperty(nameof(GRYLibrary.Core.Misc.TestKind), nameof(GRYLibrary.Core.Misc.TestKind.IntegrationTest))]
+        public void RunFileVerbExecutesTheProgramSpecifiedInTheArgumentsFile()
+        {
+            // arrange
+            string argumentsFilePath = Path.Combine(Path.GetTempPath(), $"epew-runfile-test-{Guid.NewGuid():N}.txt");
+            File.WriteAllText(argumentsFilePath, "--Program echo --Argument runfile-verb-test-output");
+            string[] arguments = new string[] { "RunFile", "--File", argumentsFilePath };
+            ProgramStarter pe = new ProgramStarter();
+
+            try
+            {
+                // act
+                int result = pe.Main(arguments);
+
+                // assert
+                Assert.AreEqual(0, result);
+                Assert.IsNotNull(pe.Result);
+                Assert.IsTrue(pe.Result is RunWithArgumentsFromFile);
+            }
+            finally
+            {
+                if(File.Exists(argumentsFilePath))
+                {
+                    File.Delete(argumentsFilePath);
                 }
             }
         }

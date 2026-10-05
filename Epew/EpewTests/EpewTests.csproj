@@ -11,6 +11,7 @@
     <PreserveCompilationContext>false</PreserveCompilationContext>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+        <NuGetAuditMode>all</NuGetAuditMode>
     <Copyright>Copyright © 2026 Marius Göcke</Copyright>
     <Description>EpewTests is the test-project for Epew.</Description>
     <PackageProjectUrl>https://github.com/anionDevelopment/Epew</PackageProjectUrl>
@@ -63,7 +64,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="GRYLibrary" Version="[2.1.1]" />
+    <PackageReference Include="GRYLibrary" Version="[2.1.4]" />
     <PackageReference Include="Microsoft.CodeCoverage" Version="[18.0.1]" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="[10.0.8]" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="[10.0.8]" />

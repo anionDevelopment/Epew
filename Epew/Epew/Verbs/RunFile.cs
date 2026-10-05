@@ -6,7 +6,7 @@ namespace Epew.Core.Verbs
     public class RunFile:VerbBase
     {
         [Option('f', nameof(File), Required = true, HelpText = "File which contains the commandline-arguments")]
-        public string File { get; set; }
+        public required string File { get; set; }
         public override void Accept(IVerbBaseVisitor visitor)
         {
             visitor.Handle(this);

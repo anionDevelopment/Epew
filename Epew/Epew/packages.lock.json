@@ -10,9 +10,9 @@
       },
       "GRYLibrary": {
         "type": "Direct",
-        "requested": "[2.1.1, 2.1.1]",
-        "resolved": "2.1.1",
-        "contentHash": "NdVpehbg6rhMQgDQKxnkH36wH13CmXIeA0bOgFjPOrXF7nwU3526AcyzY7mtTtGbK4/Pp9kQj7Wn4s5Bo1J0JA=="
+        "requested": "[2.1.4, 2.1.4]",
+        "resolved": "2.1.4",
+        "contentHash": "rUSIkLXdmDM1lwvwsMrXlnxIlVniHbGQXGRQxREvHZbFkVqtqvq/Dt2TGjqzIO6NtP4euy+sZ9827Ms1abVcOw=="
       },
       "Microsoft.AspNetCore.OpenApi": {
         "type": "Direct",

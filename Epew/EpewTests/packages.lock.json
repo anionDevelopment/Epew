@@ -10,9 +10,9 @@
       },
       "GRYLibrary": {
         "type": "Direct",
-        "requested": "[2.1.1, 2.1.1]",
-        "resolved": "2.1.1",
-        "contentHash": "NdVpehbg6rhMQgDQKxnkH36wH13CmXIeA0bOgFjPOrXF7nwU3526AcyzY7mtTtGbK4/Pp9kQj7Wn4s5Bo1J0JA=="
+        "requested": "[2.1.4, 2.1.4]",
+        "resolved": "2.1.4",
+        "contentHash": "rUSIkLXdmDM1lwvwsMrXlnxIlVniHbGQXGRQxREvHZbFkVqtqvq/Dt2TGjqzIO6NtP4euy+sZ9827Ms1abVcOw=="
       },
       "Microsoft.CodeCoverage": {
         "type": "Direct",
@@ -231,7 +231,7 @@
         "type": "Project",
         "dependencies": {
           "CommandLineParser": "[2.9.1, 2.9.1]",
-          "GRYLibrary": "[2.1.1, 2.1.1]",
+          "GRYLibrary": "[2.1.4, 2.1.4]",
           "Microsoft.AspNetCore.OpenApi": "[10.0.8, 10.0.8]",
           "Microsoft.Extensions.Logging.Abstractions": "[10.0.8, 10.0.8]",
           "Newtonsoft.Json": "[13.0.4, 13.0.4]",

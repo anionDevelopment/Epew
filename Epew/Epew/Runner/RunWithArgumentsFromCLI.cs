@@ -22,13 +22,25 @@ namespace Epew.Core.Runner
         internal const int ExitCodeTimeout = 2147393804;
         internal const string ProgramName = "Epew";
         private readonly RunCLI _Options;
-        private string _Title = null;
-        internal ExternalProgramExecutor _ExternalProgramExecutor = null;
+        private string _Title = null!;
+        internal ExternalProgramExecutor _ExternalProgramExecutor = null!;
         public RunWithArgumentsFromCLI(ProgramStarter programStarter, RunCLI options) : base(programStarter)
         {
             this._Options = options;
         }
 
+        /// <summary>
+        /// Runs the program specified by the parsed <see cref="RunCLI"/>-options and, depending on
+        /// <see cref="RunCLI.NotSynchronous"/>, either returns immediately after starting it or waits for it to
+        /// terminate and forwards its result (stdout/stderr/exitcode/process-id, each optionally written to a file).
+        /// </summary>
+        /// <returns>
+        /// If <see cref="RunCLI.NotSynchronous"/> is set: 0 (the process-id is written to <see cref="RunCLI.ProcessIdFile"/> instead, if set).
+        /// Otherwise: the exitcode of the executed program, <see cref="ExitCodeTimeout"/> if it was aborted due to the
+        /// configured timeout, or <see cref="ExitCodeNoProgramExecuted"/> if the program could not be started at all
+        /// (for example because the given workingdirectory does not exist or no program was specified); in that case
+        /// the error is logged instead of being thrown further.
+        /// </returns>
         protected override int RunImplementation()
         {
             if(this._Options.HideConsoleWindow)
@@ -170,7 +182,7 @@ namespace Epew.Core.Runner
             }
             return result;
         }
-        private static void WriteNumberToFile(Verbosity verbosity, Guid executionId, string title, string commandLineExecutionAsString, int value, string nameOfValue, string file)
+        private static void WriteNumberToFile(Verbosity verbosity, Guid executionId, string title, string commandLineExecutionAsString, int value, string nameOfValue, string? file)
         {
             List<string> fileContent = new()
             {
@@ -182,7 +194,7 @@ namespace Epew.Core.Runner
             }
             WriteToFile(file, fileContent.ToArray());
         }
-        private static void WriteToFile(string file, string[] lines)
+        private static void WriteToFile(string? file, string[] lines)
         {
             if(!string.IsNullOrEmpty(file))
             {
@@ -229,7 +241,7 @@ namespace Epew.Core.Runner
             options.LogNamespace = TrimQuotes(options.LogNamespace);
         }
 
-        private static string TrimQuotes(string argument)
+        private static string TrimQuotes(string? argument)
         {
             if(argument == null)
             {

@@ -41,6 +41,15 @@ namespace Epew.Core.Helper
             };
 
         }
+        /// <summary>
+        /// Parses <paramref name="arguments"/> and dispatches to the matching verb (<see cref="RunCLI"/> or
+        /// <see cref="RunFile"/>). If no argument was given, the basic help is printed instead of running a verb.
+        /// </summary>
+        /// <returns>
+        /// The exitcode of the executed program if a program was executed; <see cref="ExitCodeParsingError"/> if
+        /// <paramref name="arguments"/> could not be parsed; <see cref="ExitCodeFatalErrorOccurred"/> if an unexpected
+        /// exception occurred; 0 for <c>--help</c>, <c>--version</c> or when no argument was given at all.
+        /// </returns>
         public int Main(string[] arguments)
         {
             try
