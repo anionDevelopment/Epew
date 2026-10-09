@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using CommandLine;
@@ -30,6 +31,10 @@ namespace Epew.Core.Helper
         public ProgramStarter(IGRYLog log)
         {
             log.BasePath = Directory.GetCurrentDirectory();
+            if(log is GRYLog gryLog)
+            {
+                gryLog.ErrorOccurred += (exception, logItem) => Console.Error.WriteLine($"{ProgramName} could not write log-entry '{logItem.PlainMessage}': {exception}");
+            }
             this._Log = log;
             this.Version = GetVersion();
             this.LicenseLink = $"https://raw.githubusercontent.com/anionDev/Epew/v{this.Version}/License.txt";
