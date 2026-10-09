@@ -3,15 +3,15 @@
     <TargetFramework>net10.0</TargetFramework>
     <RuntimeIdentifiers>win-x64;linux-x64;linux-arm64;osx-arm64</RuntimeIdentifiers>
     <Authors>Marius Göcke</Authors>
-    <Version>5.0.25</Version>
-    <AssemblyVersion>5.0.25</AssemblyVersion>
-    <FileVersion>5.0.25</FileVersion>
+    <Version>5.0.26</Version>
+    <AssemblyVersion>5.0.26</AssemblyVersion>
+    <FileVersion>5.0.26</FileVersion>
     <SelfContained>false</SelfContained>
     <IsPackable>false</IsPackable>
     <PreserveCompilationContext>false</PreserveCompilationContext>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-        <NuGetAuditMode>all</NuGetAuditMode>
+    <NuGetAuditMode>all</NuGetAuditMode>
     <Copyright>Copyright © 2026 Marius Göcke</Copyright>
     <Description>EpewTests is the test-project for Epew.</Description>
     <PackageProjectUrl>https://github.com/anionDevelopment/Epew</PackageProjectUrl>

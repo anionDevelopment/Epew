@@ -11,7 +11,7 @@ Epew is a commandline-tool.
 There is no gui.
 The main-advantage of epew is to be used when
 
-- it is difficult to pass special characters (backslashs, quotes, etc.) from commandline to another program (use epew with the `--ArgumentIsBase64Encoded`-switch).
+- it is difficult to pass special characters (backslashes, quotes, etc.) from commandline to another program (use epew with the `--ArgumentIsBase64Encoded`-switch).
 - it is difficult to get stdout, stderr or the exitcode of the program (use epew with the `--StdOutFile`- or `--StdErrFile`- or `--ExitCodeFile`-switch).
 - you want to have a simple timeout when running a program (use epew with the `--TimeoutInMilliseconds`-switch).
 - you want to print the output to the console but also log the output into a file when running a program. Both (console and logfile) can of course have timestamps and a distinction between stderr and stdout.
