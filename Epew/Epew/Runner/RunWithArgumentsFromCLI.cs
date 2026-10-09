@@ -127,7 +127,6 @@ namespace Epew.Core.Runner
                 {
                     target.Format = this._Options.AddLogOverhead ? GRYLogLogFormat.GRYLogFormat : GRYLogLogFormat.OnlyMessage;
                 }
-                string commandLineArguments = Utilities.GetCommandLineArguments();
                 ExternalProgramExecutorConfiguration externalProgramExecutorConfiguration = new ExternalProgramExecutorConfiguration()
                 {
                     Program = this._Options.Program,
