@@ -90,7 +90,6 @@ namespace Epew.Core.Helper
 
         private int HandleErrors(IEnumerable<Error> errors, ParserResult<object> parserResult)
         {
-            // Optional: Fehler auswerten
             if(errors.IsHelp())
             {
                 HelpText helpText = HelpText.AutoBuild(parserResult, h =>

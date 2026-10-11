@@ -22,7 +22,7 @@ namespace Epew.Core.Verbs
         [Option('w', nameof(Workingdirectory), Required = false, HelpText = "Workingdirectory for the program which should be executed")]
         public string? Workingdirectory { get; set; }
 
-        [Option('v', nameof(Verbosity), Required = false, HelpText = "Verbosity of " + ProgramStarter.ProgramName + ". The concrete available values are documentated at https://aniondev.github.io/GRYLibraryReference/api/GRYLibrary.Core.Miscellaneous.Verbosity.html", Default = Verbosity.Full)]//TODO fix this link
+        [Option('v', nameof(Verbosity), Required = false, HelpText = "Verbosity of " + ProgramStarter.ProgramName + ". The concrete available values are documented at https://aniondev.github.io/GRYLibraryReference/api/GRYLibrary.Core.Miscellaneous.Verbosity.html", Default = Verbosity.Full)]//TODO fix this link
         public Verbosity Verbosity { get; set; }
 
         [Option('i', nameof(PrintErrorsAsInformation), Required = false, HelpText = "Treat errors as information", Default = false)]

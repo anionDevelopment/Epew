@@ -222,6 +222,86 @@ namespace Epew.Tests.Testcases
 
         [TestMethod]
         [TestProperty(nameof(GRYLibrary.Core.Misc.TestKind), nameof(GRYLibrary.Core.Misc.TestKind.IntegrationTest))]
+        public void MainWithoutArgumentsReturnsZeroWithoutExecutingAVerb()
+        {
+            // arrange
+            string[] arguments = new string[] { };
+            ProgramStarter pe = new ProgramStarter();
+
+            // act
+            int result = pe.Main(arguments);
+
+            // assert
+            Assert.AreEqual(0, result);
+            Assert.IsNull(pe.Result,
+                "Running Epew without arguments must only print the basic help and must not execute any verb, so no runner is expected to be published as result.");
+        }
+
+        [TestMethod]
+        [TestProperty(nameof(GRYLibrary.Core.Misc.TestKind), nameof(GRYLibrary.Core.Misc.TestKind.IntegrationTest))]
+        public void EchoWritesStdOutToFileWhenDashOSwitchIsSet()
+        {
+            // arrange
+            string stdOutFilePath = Path.Combine(Path.GetTempPath(), $"epew-stdout-switch-test-{Guid.NewGuid():N}.txt");
+            string output = "stdout-switch-test";
+            string[] arguments = new string[] { "--Program", "echo", "--Argument", output, "-o", stdOutFilePath };
+            ProgramStarter pe = new ProgramStarter();
+
+            try
+            {
+                // act
+                int result = pe.Main(arguments);
+
+                // assert
+                Assert.AreEqual(0, result);
+                Assert.IsTrue(File.Exists(stdOutFilePath),
+                    $"The -o switch (StdOutFile) does not appear to be applied: expected file '{stdOutFilePath}' was not created.");
+                string stdOutContent = File.ReadAllText(stdOutFilePath);
+                StringAssert.Contains(stdOutContent, output,
+                    $"The -o switch (StdOutFile) appears to be ignored: file does not contain the expected program output '{output}'. Actual content: '{stdOutContent}'.");
+            }
+            finally
+            {
+                if(File.Exists(stdOutFilePath))
+                {
+                    File.Delete(stdOutFilePath);
+                }
+            }
+        }
+
+        [TestMethod]
+        [TestProperty(nameof(GRYLibrary.Core.Misc.TestKind), nameof(GRYLibrary.Core.Misc.TestKind.IntegrationTest))]
+        public void EchoWritesExitCodeToFileWhenDashXSwitchIsSet()
+        {
+            // arrange
+            string exitCodeFilePath = Path.Combine(Path.GetTempPath(), $"epew-exitcode-switch-test-{Guid.NewGuid():N}.txt");
+            string[] arguments = new string[] { "--Program", "echo", "--Argument", "exitcode-switch-test", "-x", exitCodeFilePath };
+            ProgramStarter pe = new ProgramStarter();
+
+            try
+            {
+                // act
+                int result = pe.Main(arguments);
+
+                // assert
+                Assert.AreEqual(0, result);
+                Assert.IsTrue(File.Exists(exitCodeFilePath),
+                    $"The -x switch (ExitCodeFile) does not appear to be applied: expected file '{exitCodeFilePath}' was not created.");
+                string exitCodeContent = File.ReadAllText(exitCodeFilePath).Trim();
+                Assert.AreEqual(result.ToString(), exitCodeContent,
+                    $"The -x switch (ExitCodeFile) must contain the exitcode of the executed program. Expected '{result}' but file contained '{exitCodeContent}'.");
+            }
+            finally
+            {
+                if(File.Exists(exitCodeFilePath))
+                {
+                    File.Delete(exitCodeFilePath);
+                }
+            }
+        }
+
+        [TestMethod]
+        [TestProperty(nameof(GRYLibrary.Core.Misc.TestKind), nameof(GRYLibrary.Core.Misc.TestKind.IntegrationTest))]
         public void EchoWithTimestampUTC()
         {
             // arrange
