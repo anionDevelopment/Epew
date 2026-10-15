@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<coverage version="1.0" date="2026-10-15_15-47-28" tag="v5.0.26">
+  <assembly name="Epew">
+    <class name="Epew.Core.Helper.ProgramStarter" coveredlines="55" coverablelines="83" totallines="137" coveredbranches="10" totalbranches="12" coveredcodeelements="6" fullcoveredcodeelements="4" totalcodeelements="6" />
+    <class name="Epew.Core.Helper.VerbVisitor" coveredlines="10" coverablelines="10" totallines="25" coveredbranches="0" totalbranches="0" coveredcodeelements="3" fullcoveredcodeelements="3" totalcodeelements="3" />
+    <class name="Epew.Core.Program" coveredlines="0" coverablelines="3" totallines="12" coveredbranches="0" totalbranches="0" coveredcodeelements="0" fullcoveredcodeelements="0" totalcodeelements="1" />
+    <class name="Epew.Core.Runner.RunBase" coveredlines="8" coverablelines="8" totallines="32" coveredbranches="0" totalbranches="0" coveredcodeelements="2" fullcoveredcodeelements="2" totalcodeelements="2" />
+    <class name="Epew.Core.Runner.RunWithArgumentsFromCLI" coveredlines="152" coverablelines="184" totallines="255" coveredbranches="30" totalbranches="42" coveredcodeelements="7" fullcoveredcodeelements="4" totalcodeelements="7" />
+    <class name="Epew.Core.Runner.RunWithArgumentsFromFile" coveredlines="18" coverablelines="21" totallines="44" coveredbranches="1" totalbranches="2" coveredcodeelements="2" fullcoveredcodeelements="1" totalcodeelements="2" />
+    <class name="Epew.Core.Verbs.RunCLI" coveredlines="4" coverablelines="7" totallines="82" coveredbranches="0" totalbranches="0" coveredcodeelements="2" fullcoveredcodeelements="2" totalcodeelements="3" />
+    <class name="Epew.Core.Verbs.RunFile" coveredlines="3" coverablelines="6" totallines="20" coveredbranches="0" totalbranches="0" coveredcodeelements="1" fullcoveredcodeelements="1" totalcodeelements="2" />
+  </assembly>
+</coverage>
