@@ -66,12 +66,17 @@
     </PackageReference>
     <PackageReference Include="GRYLibrary" Version="[2.1.6]" />
     <PackageReference Include="Microsoft.CodeCoverage" Version="[18.0.1]" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="[10.0.8]" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="[10.0.8]" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="[10.0.8]" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="[10.0.13]" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="[10.0.13]" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="[10.0.13]" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="[18.0.1]" />
     <PackageReference Include="Moq" Version="[4.20.72]" />
     <PackageReference Include="MSTest.TestAdapter" Version="[4.1.0]" />
     <PackageReference Include="MSTest.TestFramework" Version="[4.1.0]" />
   </ItemGroup>
+  <Target Name="DisableCompileTimeOpenApiXmlGenerator" BeforeTargets="CoreCompile">
+    <ItemGroup>
+      <Analyzer Remove="@(Analyzer)" Condition="'%(Filename)' == 'Microsoft.AspNetCore.OpenApi.SourceGenerators'" />
+    </ItemGroup>
+  </Target>
 </Project>
