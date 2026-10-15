@@ -65,7 +65,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="[13.0.4]" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="[10.3.0]" />
     <PackageReference Include="CommandLineParser" Version="[2.9.1]" />
-    <PackageReference Include="GRYLibrary" Version="[2.1.6]" />
+    <PackageReference Include="GRYLibrary" Version="[2.1.7]" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="[10.0.13]" />
   </ItemGroup>
   <Target Name="DisableCompileTimeOpenApiXmlGenerator" BeforeTargets="CoreCompile">

@@ -64,7 +64,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="GRYLibrary" Version="[2.1.6]" />
+    <PackageReference Include="GRYLibrary" Version="[2.1.7]" />
     <PackageReference Include="Microsoft.CodeCoverage" Version="[18.0.1]" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="[10.0.13]" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="[10.0.13]" />
