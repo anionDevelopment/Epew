@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.IO;
+using System.Text;
 
 namespace Epew.Tests.Testcases
 {
@@ -119,6 +120,182 @@ namespace Epew.Tests.Testcases
                 if(File.Exists(expectedAbsoluteLogFilePath))
                 {
                     File.Delete(expectedAbsoluteLogFilePath);
+                }
+            }
+        }
+
+        [TestMethod]
+        [TestProperty(nameof(GRYLibrary.Core.Misc.TestKind), nameof(GRYLibrary.Core.Misc.TestKind.IntegrationTest))]
+        public void ArgumentIsBase64EncodedDecodesArgumentBeforeExecution()
+        {
+            // arrange
+            string output = "base64-decoded-output";
+            string base64Argument = Convert.ToBase64String(new UTF8Encoding(false).GetBytes(output));
+            string[] arguments = new string[] { "--Program", "echo", "--Argument", base64Argument, "--ArgumentIsBase64Encoded", "true" };
+            ProgramStarter pe = new ProgramStarter();
+
+            // act
+            int result = pe.Main(arguments);
+
+            // assert
+            Assert.AreEqual(0, result);
+            Assert.IsTrue(pe.Result is RunWithArgumentsFromCLI);
+            RunWithArgumentsFromCLI resultRunner = (RunWithArgumentsFromCLI)pe.Result;
+            Assert.AreEqual(1, resultRunner._ExternalProgramExecutor.AllStdOutLines.Length);
+            Assert.AreEqual(output, resultRunner._ExternalProgramExecutor.AllStdOutLines[0]);
+        }
+
+        [TestMethod]
+        [TestProperty(nameof(GRYLibrary.Core.Misc.TestKind), nameof(GRYLibrary.Core.Misc.TestKind.IntegrationTest))]
+        public void InvalidBase64ArgumentReturnsNoProgramExecutedExitCodeInsteadOfCrashing()
+        {
+            // arrange
+            string[] arguments = new string[] { "--Program", "echo", "--Argument", "%%%not-valid-base64%%%", "--ArgumentIsBase64Encoded", "true" };
+            ProgramStarter pe = new ProgramStarter();
+
+            // act
+            int result = pe.Main(arguments);
+
+            // assert
+            Assert.AreEqual(RunWithArgumentsFromCLI.ExitCodeNoProgramExecuted, result);
+        }
+
+        [TestMethod]
+        [TestProperty(nameof(GRYLibrary.Core.Misc.TestKind), nameof(GRYLibrary.Core.Misc.TestKind.IntegrationTest))]
+        public void NonExistentWorkingdirectoryReturnsNoProgramExecutedExitCode()
+        {
+            // arrange
+            string nonExistentWorkingDirectory = Path.Combine(Path.GetTempPath(), $"epew-nonexistent-workingdirectory-{Guid.NewGuid():N}");
+            string[] arguments = new string[] { "--Program", "echo", "--Argument", "test", "--Workingdirectory", nonExistentWorkingDirectory };
+            ProgramStarter pe = new ProgramStarter();
+
+            // act
+            int result = pe.Main(arguments);
+
+            // assert
+            Assert.AreEqual(RunWithArgumentsFromCLI.ExitCodeNoProgramExecuted, result);
+        }
+
+        [TestMethod]
+        [TestProperty(nameof(GRYLibrary.Core.Misc.TestKind), nameof(GRYLibrary.Core.Misc.TestKind.IntegrationTest))]
+        public void MissingRequiredProgramArgumentReturnsParsingErrorExitCode()
+        {
+            // arrange
+            string[] arguments = new string[] { "--Argument", "test" };
+            ProgramStarter pe = new ProgramStarter();
+
+            // act
+            int result = pe.Main(arguments);
+
+            // assert
+            Assert.AreEqual(ProgramStarter.ExitCodeParsingError, result);
+        }
+
+        [TestMethod]
+        [TestProperty(nameof(GRYLibrary.Core.Misc.TestKind), nameof(GRYLibrary.Core.Misc.TestKind.IntegrationTest))]
+        public void RunFileVerbExecutesTheProgramSpecifiedInTheArgumentsFile()
+        {
+            // arrange
+            string argumentsFilePath = Path.Combine(Path.GetTempPath(), $"epew-runfile-test-{Guid.NewGuid():N}.txt");
+            File.WriteAllText(argumentsFilePath, "--Program echo --Argument runfile-verb-test-output");
+            string[] arguments = new string[] { "RunFile", "--File", argumentsFilePath };
+            ProgramStarter pe = new ProgramStarter();
+
+            try
+            {
+                // act
+                int result = pe.Main(arguments);
+
+                // assert
+                Assert.AreEqual(0, result);
+                Assert.IsNotNull(pe.Result);
+                Assert.IsTrue(pe.Result is RunWithArgumentsFromFile);
+            }
+            finally
+            {
+                if(File.Exists(argumentsFilePath))
+                {
+                    File.Delete(argumentsFilePath);
+                }
+            }
+        }
+
+        [TestMethod]
+        [TestProperty(nameof(GRYLibrary.Core.Misc.TestKind), nameof(GRYLibrary.Core.Misc.TestKind.IntegrationTest))]
+        public void MainWithoutArgumentsReturnsZeroWithoutExecutingAVerb()
+        {
+            // arrange
+            string[] arguments = new string[] { };
+            ProgramStarter pe = new ProgramStarter();
+
+            // act
+            int result = pe.Main(arguments);
+
+            // assert
+            Assert.AreEqual(0, result);
+            Assert.IsNull(pe.Result,
+                "Running Epew without arguments must only print the basic help and must not execute any verb, so no runner is expected to be published as result.");
+        }
+
+        [TestMethod]
+        [TestProperty(nameof(GRYLibrary.Core.Misc.TestKind), nameof(GRYLibrary.Core.Misc.TestKind.IntegrationTest))]
+        public void EchoWritesStdOutToFileWhenDashOSwitchIsSet()
+        {
+            // arrange
+            string stdOutFilePath = Path.Combine(Path.GetTempPath(), $"epew-stdout-switch-test-{Guid.NewGuid():N}.txt");
+            string output = "stdout-switch-test";
+            string[] arguments = new string[] { "--Program", "echo", "--Argument", output, "-o", stdOutFilePath };
+            ProgramStarter pe = new ProgramStarter();
+
+            try
+            {
+                // act
+                int result = pe.Main(arguments);
+
+                // assert
+                Assert.AreEqual(0, result);
+                Assert.IsTrue(File.Exists(stdOutFilePath),
+                    $"The -o switch (StdOutFile) does not appear to be applied: expected file '{stdOutFilePath}' was not created.");
+                string stdOutContent = File.ReadAllText(stdOutFilePath);
+                StringAssert.Contains(stdOutContent, output,
+                    $"The -o switch (StdOutFile) appears to be ignored: file does not contain the expected program output '{output}'. Actual content: '{stdOutContent}'.");
+            }
+            finally
+            {
+                if(File.Exists(stdOutFilePath))
+                {
+                    File.Delete(stdOutFilePath);
+                }
+            }
+        }
+
+        [TestMethod]
+        [TestProperty(nameof(GRYLibrary.Core.Misc.TestKind), nameof(GRYLibrary.Core.Misc.TestKind.IntegrationTest))]
+        public void EchoWritesExitCodeToFileWhenDashXSwitchIsSet()
+        {
+            // arrange
+            string exitCodeFilePath = Path.Combine(Path.GetTempPath(), $"epew-exitcode-switch-test-{Guid.NewGuid():N}.txt");
+            string[] arguments = new string[] { "--Program", "echo", "--Argument", "exitcode-switch-test", "-x", exitCodeFilePath };
+            ProgramStarter pe = new ProgramStarter();
+
+            try
+            {
+                // act
+                int result = pe.Main(arguments);
+
+                // assert
+                Assert.AreEqual(0, result);
+                Assert.IsTrue(File.Exists(exitCodeFilePath),
+                    $"The -x switch (ExitCodeFile) does not appear to be applied: expected file '{exitCodeFilePath}' was not created.");
+                string exitCodeContent = File.ReadAllText(exitCodeFilePath).Trim();
+                Assert.AreEqual(result.ToString(), exitCodeContent,
+                    $"The -x switch (ExitCodeFile) must contain the exitcode of the executed program. Expected '{result}' but file contained '{exitCodeContent}'.");
+            }
+            finally
+            {
+                if(File.Exists(exitCodeFilePath))
+                {
+                    File.Delete(exitCodeFilePath);
                 }
             }
         }

@@ -3,14 +3,15 @@
     <TargetFramework>net10.0</TargetFramework>
     <RuntimeIdentifiers>win-x64;linux-x64;linux-arm64;osx-arm64</RuntimeIdentifiers>
     <Authors>Marius Göcke</Authors>
-    <Version>5.0.25</Version>
-    <AssemblyVersion>5.0.25</AssemblyVersion>
-    <FileVersion>5.0.25</FileVersion>
+    <Version>5.0.26</Version>
+    <AssemblyVersion>5.0.26</AssemblyVersion>
+    <FileVersion>5.0.26</FileVersion>
     <SelfContained>false</SelfContained>
     <IsPackable>false</IsPackable>
     <PreserveCompilationContext>false</PreserveCompilationContext>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <NuGetAuditMode>all</NuGetAuditMode>
     <Copyright>Copyright © 2026 Marius Göcke</Copyright>
     <Description>Epew (ExternalProgramExecutionWrapper) is a tool to wrap program-calls with some useful functions.</Description>
     <PackageProjectUrl>https://github.com/anionDevelopment/Epew</PackageProjectUrl>
@@ -60,11 +61,16 @@
     <ErrorReport>none</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="[10.0.8]" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="[10.0.13]" />
     <PackageReference Include="Newtonsoft.Json" Version="[13.0.4]" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="[10.2.1]" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="[10.3.0]" />
     <PackageReference Include="CommandLineParser" Version="[2.9.1]" />
-    <PackageReference Include="GRYLibrary" Version="[2.1.1]" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="[10.0.8]" />
+    <PackageReference Include="GRYLibrary" Version="[2.1.7]" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="[10.0.13]" />
   </ItemGroup>
+  <Target Name="DisableCompileTimeOpenApiXmlGenerator" BeforeTargets="CoreCompile">
+    <ItemGroup>
+      <Analyzer Remove="@(Analyzer)" Condition="'%(Filename)' == 'Microsoft.AspNetCore.OpenApi.SourceGenerators'" />
+    </ItemGroup>
+  </Target>
 </Project>

@@ -11,7 +11,7 @@ Epew is a commandline-tool.
 There is no gui.
 The main-advantage of epew is to be used when
 
-- it is difficult to pass special characters (backslashs, quotes, etc.) from commandline to another program (use epew with the `--ArgumentIsBase64Encoded`-switch).
+- it is difficult to pass special characters (backslashes, quotes, etc.) from commandline to another program (use epew with the `--ArgumentIsBase64Encoded`-switch).
 - it is difficult to get stdout, stderr or the exitcode of the program (use epew with the `--StdOutFile`- or `--StdErrFile`- or `--ExitCodeFile`-switch).
 - you want to have a simple timeout when running a program (use epew with the `--TimeoutInMilliseconds`-switch).
 - you want to print the output to the console but also log the output into a file when running a program. Both (console and logfile) can of course have timestamps and a distinction between stderr and stdout.
@@ -44,27 +44,31 @@ Coming soon.
 ### Arguments
 
 ```
->epew
+>epew RunCLI --help
 Copyright (C) 2020 Marius Göcke
 
   -p, --Program                     Required. Program which should be executed
 
-  -a, --Argument                    Argument for the program which should be
-                                    executed
+  -a, --Argument                    (Default: ) Argument for the program which
+                                    should be executed
 
-  -b, --ArgumentIsBase64Encoded     (Default: false) Specifiy whether Argument
+  -b, --ArgumentIsBase64Encoded     (Default: false) Specifies whether Argument
                                     is base64-encoded
 
   -w, --Workingdirectory            Workingdirectory for the program which
                                     should be executed
 
-  -v, --Verbosity                   (Default: Normal) Verbosity of epew
+  -v, --Verbosity                   (Default: Full) Verbosity of epew
 
   -i, --PrintErrorsAsInformation    (Default: false) Treat errors as information
 
-  -h, --AddLogOverhead              (Default: false) Add log overhead
+  -g, --AddLogOverhead              (Default: false) Add log overhead
 
   -f, --LogFile                     Logfile for epew
+
+  -m, --MaximalLogFileSize          (Default: 0) When the log-file-size will be
+                                    larger MaximalLogFileSize then the log-file
+                                    will be rotated.
 
   -o, --StdOutFile                  File for the stdout of the executed program
 
@@ -85,9 +89,13 @@ Copyright (C) 2020 Marius Göcke
   -n, --NotSynchronous              (Default: false) Run the program
                                     asynchronously
 
-  -n, --LogNamespace                (Default: ) Namespace for log
+  -l, --LogNamespace                (Default: ) Namespace for log
 
-  -c, --WriteOutputToConsole        (Default: false) Write output to console
+  -u, --User                        Run the program as the given user
+
+  -c, --Password                    Password of the user
+
+  -h, --HideConsoleWindow           (Default: false) Hide console window
 
   --help                            Display this help screen.
 
@@ -95,13 +103,17 @@ Copyright (C) 2020 Marius Göcke
 
 ```
 
+There is also a `RunFile`-verb which runs a program using the arguments specified in a file instead of on the commandline (`epew RunFile --File <path-to-a-file-which-contains-the-commandline-arguments>`). Run `epew RunFile --help` to see its options.
+
 Exitcodes:
 
-2147393801: If no program was executed
+2147393801: If a fatal error occurred
 
-2147393802: If a fatal error occurred
+2147393802: If the arguments can not be parsed
 
-2147393803: If the executed program was aborted due to the given timeout
+2147393803: If no program was executed
+
+2147393804: If the executed program was aborted due to the given timeout
 
 If running synchronously then the exitcode of the executed program will be set as exitcode of epew.
 
