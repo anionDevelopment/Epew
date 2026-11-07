@@ -1,2 +1,3 @@
 [codespell]
+skip = ./.git,./Epew/Other/Artifacts,*/Other/Artifacts,.git,node_modules,dist,build,bin,obj,out,target,.angular,coverage,vendor,packages,.vs,.venv,venv,__pycache__,*.min.js,*.min.css,*.map,package-lock.json,*-lock.json,*.lock,*.svg,*.png,*.jpg,*.jpeg,*.gif,*.ico,*.pdf,*.woff,*.woff2,*.ttf,*.eot,*.dll,*.exe,*.zip,*.gz,*.snk
 ignore-words-list = elease,eleases,ublish,checkin,paket
